@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Astrantia Studio – We Build Your Web</title>
+<meta name="description" content="Astrantia Studio adalah jasa pembuatan website custom untuk individu, UMKM, perusahaan, dan organisasi di Pontianak.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com/3.4.17"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          paper: 'var(--paper)', card: 'var(--card)', ink: 'var(--ink)',
+          soft: 'var(--soft)', line: 'var(--line)', accent: 'var(--accent)', onaccent: 'var(--on-accent)'
+        },
+        fontFamily: {
+          display: ['"Bricolage Grotesque"', 'Segoe UI', 'Arial', 'sans-serif'],
+          body: ['Figtree', 'Segoe UI', 'Arial', 'sans-serif']
+        }
+      }
+    }
+  };
+</script>
+<style>
+  :root {
+    --paper:#ECEBE8; --card:#F6F5F2; --ink:#232323; --soft:#5d5c58; --line:#cdcbc5;
+    --accent:#2342F5; --on-accent:#ffffff; --grid:rgba(35,35,35,.07);
+    box-sizing:border-box;
+    padding-top:env(safe-area-inset-top,0px);
+    padding-bottom:env(safe-area-inset-bottom,0px);
+    padding-left:env(safe-area-inset-left,0px);
+    padding-right:env(safe-area-inset-right,0px);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper:#151515; --card:#1e1e1e; --ink:#ECEBE8; --soft:#a4a29c; --line:#363636;
+      --accent:#8796FF; --on-accent:#10142e; --grid:rgba(236,235,232,.06);
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper:#151515; --card:#1e1e1e; --ink:#ECEBE8; --soft:#a4a29c; --line:#363636;
+    --accent:#8796FF; --on-accent:#10142e; --grid:rgba(236,235,232,.06);
+  }
+  html { scroll-padding-top: calc(env(safe-area-inset-top,0px) + 72px); }
+  html, body { background: var(--paper); }
+  body { color: var(--ink); font-family: Figtree, 'Segoe UI', Arial, sans-serif; -webkit-font-smoothing: antialiased; }
+  h1,h2,h3 { font-family: 'Bricolage Grotesque','Segoe UI',Arial,sans-serif; letter-spacing:-0.02em; }
+  :focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; border-radius: 6px; }
+
+  /* blueprint grid backdrop */
+  .grid-bg {
+    background-image:
+      linear-gradient(var(--grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+    background-size: 36px 36px;
+  }
+
+  /* browser mock */
+  .mock { background: var(--card); border:1.5px solid var(--ink); border-radius: 14px; box-shadow: 5px 5px 0 var(--ink); overflow:hidden; max-width:100%; }
+  .mock-bar { display:flex; align-items:center; gap:6px; padding:10px 14px; border-bottom:1.5px solid var(--ink); }
+  .mock-dot { width:10px; height:10px; border-radius:50%; border:1.5px solid var(--ink); }
+  .mock-url { margin-left:10px; flex:1; font-size:12px; color:var(--soft); border:1px solid var(--line); border-radius:999px; padding:3px 12px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .sk { background: var(--line); border-radius: 6px; }
+  .sk-ink { background: var(--ink); border-radius: 6px; }
+  .sk-acc { background: var(--accent); border-radius: 6px; }
+  .build > * { opacity: 0; transform: translateY(10px); animation: place .45s ease forwards; }
+  @keyframes place { to { opacity:1; transform:none; } }
+  .tab-btn[aria-selected="true"] { background: var(--ink); color: var(--paper); }
+
+  .btn-primary { background: var(--accent); color: var(--on-accent); }
+  .btn-primary:hover { filter: brightness(1.08); }
+
+  details > summary { list-style:none; cursor:pointer; }
+  details > summary::-webkit-details-marker { display:none; }
+  details[open] .chev { transform: rotate(45deg); }
+  .chev { transition: transform .2s; }
+
+  /* ---- responsive refinements ---- */
+  body { overflow-x: clip; }
+  .grid > * { min-width: 0; }
+  h1 { font-size: clamp(2.4rem, 9vw, 4.5rem) !important; }
+  h2 { font-size: clamp(1.85rem, 5.5vw, 3rem) !important; line-height: 1.1 !important; }
+  .tab-btn { min-height: 44px; }
+  input, select, textarea { font-size: 16px; }
+  dd { overflow-wrap: anywhere; }
+  #mobileNav { max-height: calc(100dvh - 64px - env(safe-area-inset-top, 0px)); overflow-y: auto; }
+  @media (max-width: 639px) {
+    .px-5 { padding-left: 1rem !important; padding-right: 1rem !important; }
+    .py-20 { padding-top: 3.5rem !important; padding-bottom: 3.5rem !important; }
+    .mock-bar { padding: 8px 10px; }
+  }
+  @media (min-width: 640px) { .mock { box-shadow: 8px 8px 0 var(--ink); } }
+  @media (min-width: 1536px) { .max-w-6xl { max-width: 80rem; } }
+
+  @media (prefers-reduced-motion: reduce) {
+    .build > * { animation: none; opacity:1; transform:none; }
+    html { scroll-behavior: auto !important; }
+  }
+</style>
+</head>
+<body class="font-body">
+
+<!-- HEADER -->
+<header id="top" class="sticky z-40 border-b border-line bg-paper/90 backdrop-blur" style="top: env(safe-area-inset-top, 0px)">
+  <div class="mx-auto flex max-w-6xl items-center justify-between px-5 py-3">
+    <a href="#top" class="flex items-center gap-3" aria-label="Astrantia Studio, ke atas">
+      <svg width="34" height="34" viewBox="0 0 64 64" fill="none" aria-hidden="true">
+        <path d="M32 4 6 58h10L32 24l8 17h-9l-3 6h16l5 11h10L32 4Z" fill="var(--ink)"/>
+        <path d="M34 30h18l-3 6H33l1-6Zm-5 14h22l-3 6H26l3-6Z" fill="var(--ink)"/>
+      </svg>
+      <span class="font-display text-lg font-bold leading-none">Astrantia Studio</span>
+    </a>
+    <nav class="hidden items-center gap-6 text-sm font-medium lg:flex" aria-label="Navigasi utama">
+      <a class="hover:text-accent" href="#tentang">Tentang</a>
+      <a class="hover:text-accent" href="#layanan">Layanan</a>
+      <a class="hover:text-accent" href="#keunggulan">Keunggulan</a>
+      <a class="hover:text-accent" href="#proses">Proses</a>
+      <a class="rounded-full btn-primary px-5 py-2 font-semibold" href="#kontak">Konsultasi gratis</a>
+    </nav>
+    <button id="menuBtn" class="flex h-11 w-11 items-center justify-center rounded-lg border border-line lg:hidden" aria-label="Buka menu" aria-expanded="false" aria-controls="mobileNav">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
+  </div>
+  <nav id="mobileNav" class="hidden border-t border-line px-5 pb-4 lg:hidden" aria-label="Navigasi seluler">
+    <div class="flex flex-col py-2 text-base font-medium">
+      <a class="py-3" href="#tentang">Tentang</a>
+      <a class="py-3" href="#layanan">Layanan</a>
+      <a class="py-3" href="#keunggulan">Keunggulan</a>
+      <a class="py-3" href="#proses">Proses</a>
+      <a class="mt-2 rounded-full btn-primary px-5 py-3 text-center font-semibold" href="#kontak">Konsultasi gratis</a>
+    </div>
+  </nav>
+</header>
+
+<main>
+<!-- HERO -->
+<section class="grid-bg border-b border-line">
+  <div class="mx-auto grid max-w-6xl items-center gap-10 px-5 py-12 sm:py-16 lg:grid-cols-[1.05fr_1fr] lg:gap-12 lg:py-24">
+    <div>
+      <h1 class="text-[2.6rem] font-extrabold leading-[1.02] sm:text-6xl lg:text-7xl">We build<br>your web.</h1>
+      <p class="mt-6 max-w-xl text-base leading-relaxed text-soft sm:text-lg">
+        Astrantia Studio membuat website yang dirancang dari nol sesuai bisnis Anda: tampilan, struktur halaman, sampai fitur. Untuk individu, UMKM, perusahaan, dan organisasi.
+      </p>
+      <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+        <a href="#kontak" class="rounded-full btn-primary px-7 py-3.5 text-center font-semibold">Mulai proyek website</a>
+        <a href="#layanan" class="rounded-full border border-ink px-7 py-3.5 text-center font-semibold hover:bg-ink hover:text-paper">Lihat layanan dan harga</a>
+      </div>
+      <p class="mt-6 text-sm text-soft">Mulai dari <strong class="text-ink">Rp1.500.000</strong>. Klien dilibatkan di setiap tahap pengerjaan.</p>
+    </div>
+
+    <!-- interactive mock -->
+    <div>
+      <div class="mock" aria-live="polite">
+        <div class="mock-bar">
+          <span class="mock-dot"></span><span class="mock-dot"></span><span class="mock-dot"></span>
+          <span class="mock-url" id="mockUrl">namabisnisanda.com</span>
+        </div>
+        <div id="mockBody" class="build p-3 sm:p-5" style="min-height: 270px"></div>
+      </div>
+      <div class="mt-8 flex flex-wrap gap-2" role="tablist" aria-label="Contoh jenis website">
+        <button role="tab" aria-selected="true" data-k="info" class="tab-btn rounded-full border border-ink px-4 py-2 text-sm font-semibold">Website Informasi</button>
+        <button role="tab" aria-selected="false" data-k="inter" class="tab-btn rounded-full border border-ink px-4 py-2 text-sm font-semibold">Website Interaktif</button>
+        <button role="tab" aria-selected="false" data-k="sys" class="tab-btn rounded-full border border-ink px-4 py-2 text-sm font-semibold">Website dengan Sistem</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TENTANG -->
+<section id="tentang" class="mx-auto max-w-6xl px-5 py-20 md:py-28">
+  <div class="grid gap-12 lg:grid-cols-[1fr_1.2fr]">
+    <h2 class="text-4xl font-bold leading-tight md:text-5xl">Website yang pas untuk bisnis Anda, bukan template yang sama untuk semua.</h2>
+    <div class="space-y-5 text-lg leading-relaxed text-soft">
+      <p>Website kini jadi kebutuhan dasar untuk memperkenalkan identitas, membangun kredibilitas, menampilkan portofolio, dan menjangkau calon pelanggan. Tapi tidak semua pemilik bisnis punya waktu atau kemampuan untuk membuatnya.</p>
+      <p>Setiap bisnis juga punya kebutuhan berbeda dalam desain, fitur, struktur informasi, dan tujuan. Astrantia Studio hadir untuk membantu: Anda menyampaikan kebutuhan, konsep, referensi desain, dan fitur yang diinginkan, kami merancang dan membangunnya.</p>
+      <p>Hasilnya adalah website yang profesional, informatif, dan mewakili karakter bisnis Anda.</p>
+    </div>
+  </div>
+</section>
+
+<!-- LAYANAN -->
+<section id="layanan" class="border-y border-line bg-card">
+  <div class="mx-auto max-w-6xl px-5 py-20 md:py-28">
+    <div class="max-w-2xl">
+      <h2 class="text-4xl font-bold md:text-5xl">Tiga jenis website, satu pendekatan custom.</h2>
+      <p class="mt-4 text-lg text-soft">Pilih yang paling dekat dengan kebutuhan Anda. Harga akhir menyesuaikan jumlah halaman dan fitur yang diminta.</p>
+    </div>
+
+    <div class="mt-10 grid gap-6 sm:mt-12 md:grid-cols-2 lg:grid-cols-3">
+      <!-- Informasi -->
+      <article class="flex flex-col rounded-2xl border border-line bg-paper p-7">
+        <svg width="44" height="44" viewBox="0 0 48 48" fill="none" stroke="var(--ink)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 6h17l9 9v27H12z"/><path d="M29 6v9h9M18 22h14M18 28h14M18 34h8"/></svg>
+        <h3 class="mt-5 text-2xl font-bold">Website Informasi</h3>
+        <p class="mt-2 text-soft">Untuk company profile, portofolio, dan personal branding.</p>
+        <ul class="mt-5 space-y-2.5 text-[0.95rem]">
+          <li class="flex gap-3"><i class="tick"></i>Halaman profil perusahaan</li>
+          <li class="flex gap-3"><i class="tick"></i>Detail layanan dan keunggulan</li>
+          <li class="flex gap-3"><i class="tick"></i>Portofolio dan studi kasus</li>
+          <li class="flex gap-3"><i class="tick"></i>Halaman kontak dengan peta</li>
+          <li class="flex gap-3"><i class="tick"></i>Informasi publik dan blog</li>
+        </ul>
+        <div class="mt-auto pt-8">
+          <p class="font-display text-2xl font-bold">Rp1,5 jt – Rp3 jt</p>
+          <button data-pick="Website Informasi" class="pick mt-4 w-full rounded-full border border-ink px-5 py-3 font-semibold hover:bg-ink hover:text-paper">Pilih paket ini</button>
+        </div>
+      </article>
+
+      <!-- Interaktif -->
+      <article class="relative flex flex-col rounded-2xl border-2 border-ink bg-paper p-7" style="box-shadow: 6px 6px 0 var(--accent)">
+        <span class="absolute -top-3.5 left-7 rounded-full btn-primary px-3 py-1 text-xs font-semibold">Paling fleksibel</span>
+        <svg width="44" height="44" viewBox="0 0 48 48" fill="none" stroke="var(--ink)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="9" width="38" height="30" rx="4"/><path d="M5 17h38"/><circle cx="24" cy="27" r="4"/><path d="M16 36c1-4 4-5 8-5s7 1 8 5"/></svg>
+        <h3 class="mt-5 text-2xl font-bold">Website Interaktif</h3>
+        <p class="mt-2 text-soft">Untuk bisnis yang butuh pengunjung berinteraksi dan konten yang bisa dikelola sendiri.</p>
+        <ul class="mt-5 space-y-2.5 text-[0.95rem]">
+          <li class="flex gap-3"><i class="tick"></i>Login dan manajemen pengguna</li>
+          <li class="flex gap-3"><i class="tick"></i>Formulir kontak dan survei dinamis</li>
+          <li class="flex gap-3"><i class="tick"></i>Integrasi database yang aman</li>
+          <li class="flex gap-3"><i class="tick"></i>Dashboard admin sederhana</li>
+          <li class="flex gap-3"><i class="tick"></i>Pengelolaan konten (CMS)</li>
+        </ul>
+        <div class="mt-auto pt-8">
+          <p class="font-display text-2xl font-bold">Rp3 jt – Rp7 jt</p>
+          <button data-pick="Website Interaktif" class="pick mt-4 w-full rounded-full btn-primary px-5 py-3 font-semibold">Pilih paket ini</button>
+        </div>
+      </article>
+
+      <!-- Sistem -->
+      <article class="flex flex-col rounded-2xl border border-line bg-paper p-7 md:col-span-2 lg:col-span-1">
+        <svg width="44" height="44" viewBox="0 0 48 48" fill="none" stroke="var(--ink)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 40V8M8 40h32"/><rect x="14" y="26" width="6" height="10" rx="1"/><rect x="24" y="18" width="6" height="18" rx="1"/><rect x="34" y="10" width="6" height="26" rx="1"/></svg>
+        <h3 class="mt-5 text-2xl font-bold">Website dengan Sistem</h3>
+        <p class="mt-2 text-soft">Untuk usaha yang ingin mencatat dan melaporkan operasional langsung dari website.</p>
+        <ul class="mt-5 space-y-2.5 text-[0.95rem]">
+          <li class="flex gap-3"><i class="tick"></i>Pencatatan transaksi dan invoicing</li>
+          <li class="flex gap-3"><i class="tick"></i>Manajemen data pelanggan (CRM)</li>
+          <li class="flex gap-3"><i class="tick"></i>Laporan bulanan dan tahunan</li>
+          <li class="flex gap-3"><i class="tick"></i>Pencarian data dan filter</li>
+          <li class="flex gap-3"><i class="tick"></i>Dashboard analitik lanjutan</li>
+        </ul>
+        <div class="mt-auto pt-8">
+          <p class="font-display text-2xl font-bold">Rp7 jt – Rp15 jt+</p>
+          <button data-pick="Website dengan Sistem" class="pick mt-4 w-full rounded-full border border-ink px-5 py-3 font-semibold hover:bg-ink hover:text-paper">Pilih paket ini</button>
+        </div>
+      </article>
+    </div>
+    <style>
+      .tick { flex:none; width:18px; height:18px; margin-top:2px; border-radius:50%; background: var(--accent);
+        -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 18'%3E%3Cpath d='M9 0a9 9 0 100 18A9 9 0 009 0zm-1.5 13L3.8 9.3l1.4-1.4 2.3 2.3 5.3-5.3 1.4 1.4L7.5 13z'/%3E%3C/svg%3E") center/contain no-repeat;
+                mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 18'%3E%3Cpath d='M9 0a9 9 0 100 18A9 9 0 009 0zm-1.5 13L3.8 9.3l1.4-1.4 2.3 2.3 5.3-5.3 1.4 1.4L7.5 13z'/%3E%3C/svg%3E") center/contain no-repeat; }
+    </style>
+  </div>
+</section>
+
+<!-- KEUNGGULAN + VISI -->
+<section id="keunggulan" class="mx-auto max-w-6xl px-5 py-20 md:py-28">
+  <div class="grid gap-14 lg:grid-cols-2">
+    <div>
+      <h2 class="text-4xl font-bold md:text-5xl">Kenapa memilih Astrantia Studio</h2>
+      <div class="mt-8 divide-y divide-line border-y border-line">
+        <div class="py-6">
+          <h3 class="text-xl font-bold">Custom, bukan template</h3>
+          <p class="mt-1 text-soft">Tampilan visual, struktur halaman, hingga fitur dirancang fleksibel sehingga setiap website punya karakter sendiri.</p>
+        </div>
+        <div class="py-6">
+          <h3 class="text-xl font-bold">Anda terlibat di setiap tahap</h3>
+          <p class="mt-1 text-soft">Proses pengerjaan komunikatif. Anda bisa menyampaikan konsep, referensi desain, dan fitur yang diinginkan.</p>
+        </div>
+        <div class="py-6">
+          <h3 class="text-xl font-bold">Profesional, modern, mudah digunakan</h3>
+          <p class="mt-1 text-soft">Desain rapi yang memperkuat identitas bisnis Anda dan nyaman dipakai pengunjung.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="rounded-2xl border border-line bg-card p-6 sm:p-8 md:p-10">
+      <h3 class="text-2xl font-bold">Visi</h3>
+      <p class="mt-3 text-lg leading-relaxed text-soft">Menjadi studio pengembangan website yang terpercaya dalam membantu individu dan bisnis membangun kehadiran digital yang profesional, kreatif, dan sesuai kebutuhan mereka.</p>
+      <h3 class="mt-9 text-2xl font-bold">Misi</h3>
+      <ul class="mt-3 space-y-3 text-soft">
+        <li class="flex gap-3"><i class="tick"></i>Menyediakan layanan pembuatan website sesuai kebutuhan dan permintaan klien.</li>
+        <li class="flex gap-3"><i class="tick"></i>Menghasilkan website dengan desain profesional, modern, dan mudah digunakan.</li>
+        <li class="flex gap-3"><i class="tick"></i>Menjalankan proses pengerjaan yang komunikatif dengan melibatkan klien.</li>
+        <li class="flex gap-3"><i class="tick"></i>Mengembangkan solusi yang memperkuat identitas dan kehadiran digital klien.</li>
+        <li class="flex gap-3"><i class="tick"></i>Memberikan pelayanan berkualitas dengan memperhatikan kepuasan klien.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- PROSES -->
+<section id="proses" class="border-y border-line bg-card">
+  <div class="mx-auto max-w-6xl px-5 py-20 md:py-28">
+    <h2 class="max-w-2xl text-4xl font-bold md:text-5xl">Dari ide ke website, empat langkah.</h2>
+    <ol class="mt-10 grid gap-8 sm:mt-12 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4">
+      <li class="border-t-2 border-ink pt-5">
+        <span class="font-display text-3xl font-extrabold text-accent">1</span>
+        <h3 class="mt-2 text-xl font-bold">Ceritakan kebutuhan</h3>
+        <p class="mt-2 text-soft">Sampaikan tujuan, konsep, referensi desain, dan fitur lewat WhatsApp atau formulir di bawah.</p>
+      </li>
+      <li class="border-t-2 border-ink pt-5">
+        <span class="font-display text-3xl font-extrabold text-accent">2</span>
+        <h3 class="mt-2 text-xl font-bold">Rancang desain</h3>
+        <p class="mt-2 text-soft">Tim kreatif menyusun tampilan dan struktur halaman. Anda meninjau dan memberi masukan.</p>
+      </li>
+      <li class="border-t-2 border-ink pt-5">
+        <span class="font-display text-3xl font-extrabold text-accent">3</span>
+        <h3 class="mt-2 text-xl font-bold">Bangun dan uji</h3>
+        <p class="mt-2 text-soft">Website dikembangkan sesuai jadwal dan diperiksa kualitasnya sebelum dikirim.</p>
+      </li>
+      <li class="border-t-2 border-ink pt-5">
+        <span class="font-display text-3xl font-extrabold text-accent">4</span>
+        <h3 class="mt-2 text-xl font-bold">Website siap dipakai</h3>
+        <p class="mt-2 text-soft">Anda menerima website yang siap memperkenalkan bisnis Anda ke dunia digital.</p>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="mx-auto max-w-3xl px-5 py-20 md:py-28">
+  <h2 class="text-4xl font-bold">Pertanyaan umum</h2>
+  <div class="mt-8 divide-y divide-line border-y border-line">
+    <details class="py-5">
+      <summary class="flex items-center justify-between gap-4 text-lg font-semibold">Berapa biaya membuat website?<span class="chev text-2xl text-accent" aria-hidden="true">+</span></summary>
+      <p class="mt-3 text-soft">Website Informasi Rp1,5 juta – Rp3 juta, Website Interaktif Rp3 juta – Rp7 juta, dan Website dengan Sistem mulai Rp7 juta hingga Rp15 juta atau lebih. Harga pasti ditentukan setelah kami memahami kebutuhan Anda.</p>
+    </details>
+    <details class="py-5">
+      <summary class="flex items-center justify-between gap-4 text-lg font-semibold">Apakah saya bisa memilih desain sendiri?<span class="chev text-2xl text-accent" aria-hidden="true">+</span></summary>
+      <p class="mt-3 text-soft">Bisa. Anda dapat membawa referensi desain, warna, dan fitur yang diinginkan. Kami menyesuaikannya dengan karakter bisnis Anda.</p>
+    </details>
+    <details class="py-5">
+      <summary class="flex items-center justify-between gap-4 text-lg font-semibold">Siapa saja yang bisa memakai layanan ini?<span class="chev text-2xl text-accent" aria-hidden="true">+</span></summary>
+      <p class="mt-3 text-soft">Individu, UMKM, perusahaan, dan organisasi yang butuh website untuk memperkenalkan bisnis, produk, layanan, atau portofolio.</p>
+    </details>
+    <details class="py-5">
+      <summary class="flex items-center justify-between gap-4 text-lg font-semibold">Saya belum tahu butuh jenis website yang mana.<span class="chev text-2xl text-accent" aria-hidden="true">+</span></summary>
+      <p class="mt-3 text-soft">Tidak apa-apa. Ceritakan usaha Anda lewat WhatsApp, lalu kami bantu pilih jenis website yang paling sesuai.</p>
+    </details>
+  </div>
+</section>
+
+<!-- KONTAK -->
+<section id="kontak" class="border-t border-line" style="background: var(--ink); color: var(--paper)">
+  <div class="mx-auto grid max-w-6xl gap-12 px-5 py-20 md:py-28 lg:grid-cols-2">
+    <div>
+      <h2 class="text-4xl font-bold leading-tight md:text-5xl">Siap membangun website Anda?</h2>
+      <p class="mt-4 max-w-md text-lg opacity-80">Isi formulir, pesan Anda langsung terbuka di WhatsApp kami. Konsultasi awal tanpa biaya.</p>
+      <dl class="mt-10 space-y-5">
+        <div>
+          <dt class="text-sm opacity-60">Alamat</dt>
+          <dd class="mt-0.5">Jln. Adi Sucipto Km 7.4, belakang Apotik Dunia Sehat (depan Aneka Raya)</dd>
+        </div>
+        <div>
+          <dt class="text-sm opacity-60">WhatsApp</dt>
+          <dd class="mt-0.5"><a class="underline underline-offset-4" href="https://wa.me/6285123959372">0851-2395-9372</a></dd>
+        </div>
+        <div>
+          <dt class="text-sm opacity-60">Instagram</dt>
+          <dd class="mt-0.5">@AstrantiaSO</dd>
+        </div>
+        <div>
+          <dt class="text-sm opacity-60">Email</dt>
+          <dd class="mt-0.5"><a class="underline underline-offset-4" href="mailto:Astrantiastudio@gmail.com">Astrantiastudio@gmail.com</a></dd>
+        </div>
+      </dl>
+    </div>
+
+    <div class="rounded-2xl p-5 sm:p-7 md:p-9" style="background: var(--paper); color: var(--ink)">
+      <div class="space-y-5">
+        <div>
+          <label for="fName" class="block text-sm font-semibold">Nama Anda</label>
+          <input id="fName" type="text" autocomplete="name" placeholder="Contoh: Budi" class="mt-1.5 w-full rounded-lg border border-line bg-card px-4 py-3 outline-none focus:border-accent">
+        </div>
+        <div>
+          <label for="fType" class="block text-sm font-semibold">Jenis website</label>
+          <select id="fType" class="mt-1.5 w-full rounded-lg border border-line bg-card px-4 py-3 outline-none focus:border-accent">
+            <option>Website Informasi</option>
+            <option>Website Interaktif</option>
+            <option>Website dengan Sistem</option>
+            <option>Belum tahu, mau konsultasi dulu</option>
+          </select>
+        </div>
+        <div>
+          <label for="fMsg" class="block text-sm font-semibold">Ceritakan kebutuhan Anda</label>
+          <textarea id="fMsg" rows="4" placeholder="Jenis usaha, fitur yang diinginkan, referensi desain, atau target waktu." class="mt-1.5 w-full rounded-lg border border-line bg-card px-4 py-3 outline-none focus:border-accent"></textarea>
+        </div>
+        <button id="sendWa" type="button" class="w-full rounded-full btn-primary px-6 py-3.5 font-semibold">Kirim lewat WhatsApp</button>
+        <p id="formNote" class="min-h-[1.25rem] text-sm text-soft" role="status"></p>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="border-t border-line">
+  <div class="mx-auto flex max-w-6xl flex-col items-start justify-between gap-3 px-5 py-8 text-sm text-soft sm:flex-row sm:items-center">
+    <p><strong class="font-display text-ink">Astrantia Studio</strong> · We build your web</p>
+    <p>© <span id="yr"></span> Astrantia Studio. Semua hak dilindungi.</p>
+  </div>
+</footer>
+
+<script>
+  // Footer year
+  document.getElementById('yr').textContent = new Date().getFullYear();
+
+  // Mobile menu
+  const menuBtn = document.getElementById('menuBtn');
+  const mobileNav = document.getElementById('mobileNav');
+  menuBtn.addEventListener('click', () => {
+    const open = mobileNav.classList.toggle('hidden') === false;
+    menuBtn.setAttribute('aria-expanded', String(open));
+  });
+  mobileNav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    mobileNav.classList.add('hidden'); menuBtn.setAttribute('aria-expanded', 'false');
+  }));
+
+  // Close mobile menu on Escape or when resizing to desktop
+  const closeMenu = () => { mobileNav.classList.add('hidden'); menuBtn.setAttribute('aria-expanded', 'false'); };
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu(); });
+  window.matchMedia('(min-width: 1024px)').addEventListener('change', e => { if (e.matches) closeMenu(); });
+
+  // Hero mock: three website types
+  const ink = (w, h = 10, cls = 'sk') => `<div class="${cls}" style="width:${w};height:${h}px"></div>`;
+  const mocks = {
+    info: {
+      url: 'namabisnisanda.com',
+      html: `
+        <div class="flex items-center justify-between">${ink('90px', 12, 'sk-ink')}<div class="flex gap-3">${ink('36px')}${ink('36px')}${ink('36px')}</div></div>
+        <div class="mt-5 rounded-lg p-5" style="background:var(--paper);border:1px solid var(--line)">
+          ${ink('70%', 18, 'sk-ink')}<div class="mt-3">${ink('90%')}</div><div class="mt-2">${ink('60%')}</div>
+          <div class="mt-4">${ink('96px', 28, 'sk-acc')}</div>
+        </div>
+        <div class="mt-4 grid grid-cols-3 gap-3">
+          ${[0,1,2].map(() => `<div class="rounded-lg p-3" style="border:1px solid var(--line)">${ink('28px', 28)}<div class="mt-3">${ink('80%')}</div><div class="mt-2">${ink('55%')}</div></div>`).join('')}
+        </div>
+        <div class="mt-4 flex gap-3"><div class="sk flex-1" style="height:56px"></div><div class="flex-1">${ink('80%')}<div class="mt-2">${ink('60%')}</div><div class="mt-2">${ink('70%')}</div></div></div>`
+    },
+    inter: {
+      url: 'namabisnisanda.com/admin',
+      html: `
+        <div class="grid gap-4 sm:grid-cols-[0.8fr_1.2fr]">
+          <div class="rounded-lg p-4" style="border:1px solid var(--line)">
+            ${ink('50%', 14, 'sk-ink')}
+            <div class="mt-4">${ink('100%', 30)}</div><div class="mt-3">${ink('100%', 30)}</div>
+            <div class="mt-4">${ink('100%', 30, 'sk-acc')}</div>
+          </div>
+          <div class="rounded-lg p-4" style="border:1px solid var(--line)">
+            <div class="flex items-center justify-between">${ink('40%', 14, 'sk-ink')}${ink('56px', 22, 'sk-acc')}</div>
+            ${[0,1,2,3].map(() => `<div class="mt-3 flex items-center gap-3"><div class="sk" style="width:22px;height:22px;border-radius:50%"></div>${ink('45%')}<div class="ml-auto">${ink('44px')}</div></div>`).join('')}
+          </div>
+        </div>
+        <div class="mt-4 rounded-lg p-4" style="border:1px solid var(--line)">${ink('35%', 12, 'sk-ink')}<div class="mt-3">${ink('100%', 40)}</div></div>`
+    },
+    sys: {
+      url: 'namabisnisanda.com/dashboard',
+      html: `
+        <div class="grid grid-cols-3 gap-3">
+          ${['62%','48%','80%'].map((w, i) => `<div class="rounded-lg p-3" style="border:1px solid var(--line)">${ink('50%')}<div class="mt-3">${ink(w, 20, i === 2 ? 'sk-acc' : 'sk-ink')}</div></div>`).join('')}
+        </div>
+        <div class="mt-4 rounded-lg p-4" style="border:1px solid var(--line)">
+          <div class="flex items-end gap-2" style="height:90px">
+            ${[40,65,50,80,60,95,70,88,55,100,75,90].map((h, i) => `<div class="${i === 9 ? 'sk-acc' : 'sk'} flex-1" style="height:${h}%"></div>`).join('')}
+          </div>
+        </div>
+        <div class="mt-4 rounded-lg p-3" style="border:1px solid var(--line)">
+          <div class="flex items-center gap-3">${ink('100%', 28)}</div>
+          ${[0,1,2].map(() => `<div class="mt-3 flex gap-3">${ink('20%')}${ink('35%')}${ink('15%')}<div class="ml-auto">${ink('50px')}</div></div>`).join('')}
+        </div>`
+    }
+  };
+  const mockBody = document.getElementById('mockBody');
+  const mockUrl = document.getElementById('mockUrl');
+  const tabs = document.querySelectorAll('.tab-btn');
+  function showMock(k) {
+    mockUrl.textContent = mocks[k].url;
+    mockBody.innerHTML = mocks[k].html;
+    Array.from(mockBody.children).forEach((el, i) => el.style.animationDelay = (i * 90) + 'ms');
+    tabs.forEach(t => t.setAttribute('aria-selected', String(t.dataset.k === k)));
+  }
+  tabs.forEach(t => t.addEventListener('click', () => showMock(t.dataset.k)));
+  showMock('info');
+
+  // Pick a package -> prefill form
+  document.querySelectorAll('.pick').forEach(b => b.addEventListener('click', () => {
+    document.getElementById('fType').value = b.dataset.pick;
+    document.getElementById('kontak').scrollIntoView({ behavior: 'smooth' });
+    setTimeout(() => document.getElementById('fName').focus({ preventScroll: true }), 500);
+  }));
+
+  // Send to WhatsApp
+  document.getElementById('sendWa').addEventListener('click', () => {
+    const name = document.getElementById('fName').value.trim();
+    const type = document.getElementById('fType').value;
+    const msg = document.getElementById('fMsg').value.trim();
+    const note = document.getElementById('formNote');
+    if (!name) { note.textContent = 'Isi nama Anda dulu agar kami tahu siapa yang menghubungi.'; document.getElementById('fName').focus(); return; }
+    const text = `Halo Astrantia Studio, saya ${name}. Saya tertarik dengan ${type}.` + (msg ? `\n\nKebutuhan saya: ${msg}` : '');
+    window.open('https://wa.me/6285123959372?text=' + encodeURIComponent(text), '_blank', 'noopener');
+    note.textContent = 'WhatsApp dibuka di tab baru. Tekan kirim di sana untuk menyelesaikan.';
+  });
+</script>
+</body>
+</html>
